@@ -9,15 +9,15 @@
 <div class="choice-container">
     <div class="challenger-choice choice" #challengerChoice>
 
-        <h4 *ngIf="!showWinnerBanner && userIs() == 'challenged'">?¿?</h4>
+        <h4 *ngIf="!showWinnerBanner && userIs() === 'challenged'">?¿?</h4>
 
-        <div *ngIf="!showWinnerBanner && userIs() == 'challenger' || userIs() == 'spectator'" [ngSwitch]="rps">
+        <div *ngIf="!showWinnerBanner && userIs() === 'challenger' || userIs() === 'spectator'" [ngSwitch]="rps">
             <img class="chosen" *ngSwitchCase="'r'" src="../../../../assets/rock-svgrepo-com.svg">
             <img class="chosen" *ngSwitchCase="'p'" src="../../../../assets/paper-svgrepo-com.svg">
             <img class="chosen" *ngSwitchCase="'s'" src="../../../../assets/scissors-svgrepo-com.svg">
         </div>
 
-        <div *ngIf="showWinnerBanner || userIs() == 'spectator'" [ngSwitch]="rpsGame.challengerChoice">
+        <div *ngIf="showWinnerBanner || userIs() === 'spectator'" [ngSwitch]="rpsGame.challengerChoice">
             <img class="chosen" *ngSwitchCase="'r'" src="../../../../assets/rock-svgrepo-com.svg">
             <img class="chosen" *ngSwitchCase="'p'" src="../../../../assets/paper-svgrepo-com.svg">
             <img class="chosen" *ngSwitchCase="'s'" src="../../../../assets/scissors-svgrepo-com.svg">
@@ -26,15 +26,15 @@
     </div>
     <div class="challenged-choice choice" #challengedChoice>
 
-        <h4 *ngIf="!showWinnerBanner && userIs() == 'challenger'">?¿?</h4>
+        <h4 *ngIf="!showWinnerBanner && userIs() === 'challenger'">?¿?</h4>
 
-        <div *ngIf="!showWinnerBanner && userIs() == 'challenged' || userIs() == 'spectator'" [ngSwitch]="rps">
+        <div *ngIf="!showWinnerBanner && userIs() === 'challenged' || userIs() === 'spectator'" [ngSwitch]="rps">
             <img class="chosen" *ngSwitchCase="'r'" src="../../../../assets/rock-svgrepo-com.svg">
             <img class="chosen" *ngSwitchCase="'p'" src="../../../../assets/paper-svgrepo-com.svg">
             <img class="chosen" *ngSwitchCase="'s'" src="../../../../assets/scissors-svgrepo-com.svg">
         </div>
 
-        <div *ngIf="showWinnerBanner || userIs() == 'spectator'" [ngSwitch]="rpsGame.challengedChoice">
+        <div *ngIf="showWinnerBanner || userIs() === 'spectator'" [ngSwitch]="rpsGame.challengedChoice">
             <img class="chosen" *ngSwitchCase="'r'" src="../../../../assets/rock-svgrepo-com.svg">
             <img class="chosen" *ngSwitchCase="'p'" src="../../../../assets/paper-svgrepo-com.svg">
             <img class="chosen" *ngSwitchCase="'s'" src="../../../../assets/scissors-svgrepo-com.svg">
@@ -55,15 +55,15 @@
 
 <div class="interact" *ngIf="isInGame(activeUser)">
 
-    <p *ngIf="rpsGame.challengedConn == false && rpsGame._challenger.userID == activeUser.userID">
+    <p *ngIf="rpsGame.challengedConn === false && rpsGame._challenger.userID === activeUser.userID">
         Waiting for opponent to accept your challenge
     </p>
 
     <button class="interact-btn"
-        *ngIf="rpsGame.challengedConn == false && rpsGame._challenger.userID != activeUser.userID"
+        *ngIf="rpsGame.challengedConn === false && rpsGame._challenger.userID !== activeUser.userID"
         (click)="acceptChallenge(rpsGame._challenger)">Enter</button>
 
-    <div class="button-container" *ngIf="rpsGame.challengedConn == true" [attr.tabindex]="rpsGame.fastMode ? '0' : null"
+    <div class="button-container" *ngIf="rpsGame.challengedConn === true" [attr.tabindex]="rpsGame.fastMode ? '0' : null"
         (keyup)="onKey($event)" #interact>
         <div class="tooltips">
             <p *ngIf="rpsGame.fastMode" class="btn-tooltip">1</p>
@@ -79,7 +79,7 @@
                 src="../../../../assets/scissors-pngrepo-com.png" (click)="chooseRPS('s')">
         </div>
 
-        <button class="interact-btn" *ngIf="!choiceFinalized && rpsGame.challengedConn == true && !rpsGame.fastMode"
+        <button class="interact-btn" *ngIf="!choiceFinalized && rpsGame.challengedConn === true && !rpsGame.fastMode"
             [ngClass]="{'no-choice': !rps}" (click)="submitRPS()">Finalize</button>
     </div>
 </div>
@@ -88,7 +88,7 @@
     <button (click)="spectateGame()">Spectate</button>
 </div>
 
-<div class="interact" *ngIf="userIs() == 'spectator'">
+<div class="interact" *ngIf="userIs() === 'spectator'">
     <button>Unspectate</button>
 </div>
 
@@ -99,7 +99,7 @@
 
     <p class="waiting" *ngIf="choiceFinalized && !showWinnerBanner">Waiting for opponent...</p>
 
-    <div class="fast-mode-container" *ngIf="userIs() == 'challenger'" (click)="toggleFast()">
+    <div class="fast-mode-container" *ngIf="userIs() === 'challenger'" (click)="toggleFast()">
         <p [ngClass]="{'fast-rotate': rpsGame.fastMode}" class="material-symbols-outlined" id="bolt">bolt</p>
         <p class="hyper-tooltip"><abbr
                 title="Use number keys while buttons are focused to submit choice">HyperRPS</abbr></p>

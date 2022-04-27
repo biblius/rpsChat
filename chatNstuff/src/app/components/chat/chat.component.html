@@ -45,17 +45,17 @@
     <ul #messageList>
         <li *ngFor="let message of messages; let i = index" class="message-container">
             <div class="message"
-                [ngClass]="{lastMsg: messages[i+1] == undefined || message.senderID != messages[i+1].senderID}">
+                [ngClass]="{lastMsg: messages[i+1] === undefined || message.senderID !== messages[i+1].senderID}">
                 <div class="message-body">
                     <p class="username"
-                        *ngIf="messages[i-1] == undefined || messages[i - 1].senderID != message.senderID">
+                        *ngIf="messages[i-1] === undefined || messages[i - 1].senderID !== message.senderID">
                         <strong>
-                            {{message.senderUsername == activeUser.username ? 'You: ' : message.senderUsername + ': ' }}
+                            {{message.senderUsername === activeUser.username ? 'You: ' : message.senderUsername + ': ' }}
                         </strong>
                     </p>
                     <p class="content"> {{message.content}} </p>
                 </div>
-                <div class="read-status" *ngIf="message.receiverID && messages[i+1] == undefined">
+                <div class="read-status" *ngIf="message.receiverID && messages[i+1] === undefined">
                     <i class="material-icons" *ngIf="!message.read">check</i>
                     <i class="material-icons" *ngIf="message.read">check_circle</i>
                 </div>
