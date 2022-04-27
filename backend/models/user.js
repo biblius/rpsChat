@@ -45,17 +45,5 @@ const userSchema = new Schema({
     }
 });
 
-userSchema.methods.removeRequest = function (request) {
-    if (this.pendingRequests.length > 0) {
-        for (let i = 0; i < this.pendingRequests.length; i++) {
-            if (this.pendingRequests[i].id == request.id) {
-                const index = this.pendingRequests.indexOf(this.pendingRequests[i]);
-                return this.pendingRequests.splice(index, index + 1);
-            }
-        }
-    }
-    return "Could not find request";
-}
-
 const User = mongoose.model('user', userSchema);
 module.exports = { User };
