@@ -1,0 +1,10 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<h4>{{user.active ? user.username + ' (you)' : user.username}}</h4>
+<div class="online-status">
+    <i [ngStyle]="{color: user.connected ? 'green' :  'red'}" class="material-icons">brightness_1</i>
+</div>
+<div *ngIf="user.hasNewMessages" class="new-messages">
+    <i class="material-icons">email</i><span>!</span>
+</div>

@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@keyframes rotateCW {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotateHue {
+    from {
+        filter: hue-rotate(0deg);
+    }
+
+    to {
+        filter: hue-rotate(360deg);
+    }
+}
+
+.kamen-najjaci {
+    border: 1px solid black;
+    filter: invert(0);
+    filter: hue-rotate(150deg);
+    /* animation: rotateHue 0.5s linear 0s infinite normal both;  */
+}
+
+.header-container {
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-around;
+    background: linear-gradient(to right, #353535, rgb(100, 24, 24), #353535);
+}
+
+.header-container h3 {
+    font-family: 'Metal Mania', cursive;
+    letter-spacing: 0.7ch;
+    width: 35%;
+    margin: auto;
+    height: 2rem;
+    text-align: center;
+}
+
+#vs-swords {
+    width: 30%;
+    margin: auto;
+    align-self: baseline;
+    height: 2rem;
+    width: 2rem;
+    filter: invert();
+}
+
+.choice-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.choice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25%;
+    height: 6rem;
+    border: 1px solid white;
+    border-radius: 1rem;
+}
+
+.chosen {
+    filter: invert();
+    height: 3rem;
+    width: 3rem;
+}
+
+.winner-banner {
+    width: 100%;
+    height: 1rem;
+    text-align: center;
+}
+
+.winner-banner h4 {
+    padding: 0;
+    margin: 0;
+}
+
+.score {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    text-align: center;
+    font-size: 3ch;
+    width: 20%;
+    height: 3rem;
+}
+
+.interact {
+    display: flex;
+    flex-flow: row wrap;
+    row-gap: 1rem;
+    width: 50%;
+    height: 5rem;
+    justify-content: center;
+    align-items: center;
+    border: 1px transparent;
+    border-radius: 1rem;
+}
+
+.interact:focus {
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 1rem;
+    filter: hue-rotate(17deg);
+}
+
+.interact p {
+    width: fit-content;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    justify-self: center;
+}
+
+.button-container {
+    display: flex;
+    row-gap: 0.4rem;
+    flex-flow: row wrap;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+}
+
+.tooltips {
+    position: absolute;
+    display: inherit;
+    justify-content: space-around;
+    width: 100%;
+    bottom: 3.5rem;
+}
+
+.button-container .btn-tooltip {
+    transition: opacity 0.2s ease-in-out 0s;
+    opacity: 0;
+}
+
+.button-container:hover>.tooltips p {
+    opacity: 1;
+}
+
+.choose-buttons {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 3rem;
+}
+
+.finalized {
+    opacity: .1;
+}
+
+.interact .choice-button {
+    height: 2.5rem;
+    width: 2.5rem;
+}
+
+.interact img {
+    filter: invert(); 
+
+}
+
+.interact img:hover {
+    filter: invert(0%) hue-rotate(280deg);;
+    cursor: pointer;
+}
+
+.interact-btn {
+    font-family: 'Metal Mania', cursive;
+    letter-spacing: 0.2ch;
+    color: white;
+    border-radius: 0.2rem;
+    background: linear-gradient(to right, #353535, rgb(100, 24, 24), #353535);
+}
+
+.interact-btn:hover {
+    cursor: pointer;
+}
+
+.no-choice {
+    filter: grayscale(100%);
+    color: gray;
+}
+
+.info {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.waiting {
+    margin-left: 1ch;
+    justify-self: flex-start;
+    width: 70%;
+}
+
+.fast-mode-container {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fast-mode-container:hover {
+    cursor: pointer;
+}
+
+.fast-mode-container p {
+    font-size: 1.3ch;
+}
+
+#bolt {
+    font-size: 2ch;
+}
+
+/* valid scss */
+.fast-rotate {
+    color: gold;
+    animation: rotateCW 0.6s linear 0s infinite normal both;
+}

@@ -1,0 +1,11 @@
+<app-header class="header"></app-header>
+<main>
+    <div *ngIf="isLoggedIn">
+        <app-chat class="chat-container"></app-chat>
+    </div>
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
+</main>
+
+<app-footer></app-footer>

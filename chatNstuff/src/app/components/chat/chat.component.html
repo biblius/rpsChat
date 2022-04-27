@@ -1,0 +1,90 @@
+<link rel="stylesheet"
+    href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+<aside class="chat-users">
+    <app-chat-user-dash *ngFor="let user of users" [user]="user" class="chat-dash users"
+        [ngClass]="{selected: user === selected}" (click)="toggleSelected(user)" [@fadeInOut]> 
+    </app-chat-user-dash>
+</aside>
+
+<aside class="chat-rooms">
+    <h3 class="rooms-banner">Rooms</h3>
+
+    <!--Room form-->
+    <div class="add-room">
+        <form class="room-form" *ngIf="showRoomForm" [@toggleBox] (ngSubmit)="createRoom()">
+            <input placeholder="Name your room" type="text" autocomplete="off" [(ngModel)]="newRoomName"
+                name="newRoomName" autofocus>
+        </form>
+        <i *ngIf="!showRoomForm" (click)="toggleRoomForm()" class="material-symbols-outlined">add_circle</i>
+        <i *ngIf="showRoomForm" (click)="toggleRoomForm()" class="material-symbols-outlined">remove_circle</i>
+    </div>
+
+    <!--Chat rooms-->
+    <app-room-dash *ngFor="let room of rooms" [ngClass]="{selected: room === selected}" [activeUser]="activeUser"
+        [room]="room" class="chat-dash rooms" (onJoinRoom)="joinRoom(room)" (onLeaveRoom)="leaveRoom(room)"
+        (click)="toggleSelected(room)">
+    </app-room-dash>
+    <!--RPS rooms-->
+    <h4 class="rooms-banner duels">Duels</h4>
+
+    <div *ngFor="let room of rpsRooms" class="chat-dash challenge-room" (click)="toggleSelected(room)"
+        [ngClass]="{selected: room === selectedRPS}">
+        <div class="versus">
+            <p>{{room._challenger.username}} : {{room.challengerScore}}</p>
+            <p class="vs">vs</p>
+            <p>{{room._challenged.username}} : {{room.challengedScore}}</p>
+        </div>
+    </div>
+
+</aside>
+
+<div class="chat-box" [ngClass]="{split: showGame}"
+    *ngIf="selected && (isInstanceOfChatUser(selected) || isInstanceOfRoom(selected))" [@toggleBox]>
+    <!-- MESSAGES -->
+    <ul #messageList>
+        <li *ngFor="let message of messages; let i = index" class="message-container">
+            <div class="message"
+                [ngClass]="{lastMsg: messages[i+1] == undefined || message.senderID != messages[i+1].senderID}">
+                <div class="message-body">
+                    <p class="username"
+                        *ngIf="messages[i-1] == undefined || messages[i - 1].senderID != message.senderID">
+                        <strong>
+                            {{message.senderUsername == activeUser.username ? 'You: ' : message.senderUsername + ': ' }}
+                        </strong>
+                    </p>
+                    <p class="content"> {{message.content}} </p>
+                </div>
+                <div class="read-status" *ngIf="message.receiverID && messages[i+1] == undefined">
+                    <i class="material-icons" *ngIf="!message.read">check</i>
+                    <i class="material-icons" *ngIf="message.read">check_circle</i>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    <div class="chat-form" *ngIf="selected" [@fadeInOut]>
+        <form (ngSubmit)="sendMessage()" *ngIf="(isInstanceOfRoom(selected) && isInRoom(selected)) || isInstanceOfChatUser(selected)" [@toggleBox]>
+            <input type="text" autocomplete="off" [(ngModel)]="messageContent" name="messageContent">
+            <button class="send-msg-btn"><span class="material-symbols-outlined">
+                    double_arrow
+                </span></button>
+        </form>
+        <img class="vs-swords" src="../../../assets/swords-svgrepo-com.svg"
+            *ngIf="isInstanceOfChatUser(selected) && !challengeExists(selected.userID)" (click)="sendChallenge()">
+        <button class="room-btn" 
+        *ngIf="isInstanceOfRoom(selected)" 
+        [ngSwitch]="isInRoom(selected)" 
+        (click)="isInRoom(selected) ? leaveRoom(selected) : joinRoom(selected)"
+        [ngClass]="{'leave-btn': isInRoom(selected)}">
+            <span *ngSwitchCase="true" class="material-symbols-outlined">login</span>
+            <span *ngSwitchCase="false" class="material-symbols-outlined">logout</span>
+        </button>
+    </div>
+</div>
+
+<div class="game-box" *ngIf="selectedRPS" [@fadeInOut]>
+    <app-rps-game class="rps-game" [activeUser]="activeUser" [rpsGame]="selectedRPS">
+    </app-rps-game>
+    <!--  <audio controls autoplay src="../../../assets/09 The Prophecy.mp3" type="audio/ogg" #musicPlayer></audio> -->
+</div>

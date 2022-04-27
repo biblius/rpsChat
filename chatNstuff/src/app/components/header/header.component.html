@@ -1,0 +1,4 @@
+<header>
+    <h1> <a style="text-decoration: none;" routerLink="/">{{title}}</a> </h1>
+    <app-button class="logout-btn" color="rgb(100, 24, 24)" *ngIf="isLoggedIn" text="Logout" (btnClick)="logout()"></app-button>
+</header>

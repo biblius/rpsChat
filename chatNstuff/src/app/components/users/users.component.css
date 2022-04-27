@@ -1,0 +1,14 @@
+.users-list {
+    display: flex;
+    gap: 1rem;
+    flex-flow: row wrap;
+}
+
+.error-msg {
+    margin: 3rem auto 0 auto;
+    text-align: center;
+}
+
+.error-msg a {
+    color: rgb(255, 95, 95);
+}

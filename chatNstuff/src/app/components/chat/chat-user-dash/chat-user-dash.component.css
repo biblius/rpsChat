@@ -1,0 +1,40 @@
+h4 {
+    grid-area: 1 / 1 / 2 / 4;
+    font-size: 20px;
+    width: 100%;
+    margin: 0;
+}
+
+.online-status {
+    margin: 0;
+    grid-area: 3 / 1 / 4 / 2;
+    align-items: center;
+    width: fit-content;
+}
+
+.online-status p {
+    width: fit-content;
+}
+
+.online-status .material-icons {
+    font-size: 1ch;
+    width: fit-content;
+    height: fit-content;
+}
+
+.new-messages {
+    grid-area: 2 / 3 / 3 / 4;
+    justify-self: center;
+    width: fit-content;
+    font-size: 25px;
+    align-items: flex-end;
+    display: flex;
+    align-items: center;
+}
+
+.new-messages i {
+    font-size: 1.5ch;
+}
+.new-messages span {
+    font-size: 1ch;
+}

@@ -1,0 +1,349 @@
+@import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
+
+@property --c {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #353535;
+}
+@property --p {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 0%;
+}
+@property --a {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 270deg;
+}
+@property --main-red {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: rgb(100, 24, 24);
+}
+
+@property --cb-height {
+    syntax: '<integer>';
+    inherits: false;
+    initial-value: 8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*
+*============================ SIDE DASHBOARD ====================
+*/
+
+.chat-users {
+    grid-area: 1 / 1 / 5 / 2;
+    width: 100%;
+    height: 100%;
+    background-color: #303030;
+    overflow-y: scroll;
+}
+
+.chat-rooms {
+    grid-area: 5 / 1 / 8 / 2;
+    color: #f1f1f1;
+    width: 100%;
+    height: 100%;
+    background-color: #2b2b2b;
+    overflow-y: scroll;
+}
+
+.chat-dash {
+    color: #f1f1f1;
+    display: grid;
+    box-sizing: border-box;
+    overflow: hidden;
+    grid-template: 1rem 1.5rem 1.5rem / 1fr 1fr 1fr;
+    align-items: center;
+    width: 100%;
+    background: linear-gradient(var(--a),var(--c), #353535 var(--p), var(--c));
+    z-index: 100;
+    transition: --c 0.15s 0.1s;
+    transition: --p 0.15s 0.1s;
+}
+
+.selected {
+    --a: 90deg;
+    --c: #525252;
+    --p: 100%;
+}
+
+.rooms-banner {
+    text-align: center;
+}
+
+.add-room {
+    display: flex;
+    justify-content: center;
+    margin: 0.3rem 0 0.5rem 0;
+}
+
+.add-room i {
+    width: fit-content;
+    margin: auto;
+}
+.add-room i:hover {
+    cursor: pointer;
+}
+
+.room-form {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+}
+
+.room-form input {
+    width: 100%;
+}
+
+.duels {
+    margin: 0 auto 0 auto;
+    font-family: 'Metal Mania', cursive;
+    letter-spacing: 0.3ch;
+    background: linear-gradient(to right, #353535, var(--main-red), #353535);
+}
+
+.rooms {
+    margin: 0.2rem auto 0 auto;
+    height: 4rem;
+}
+
+.challenge-room {
+    display: flex;
+    flex-flow: row wrap;
+    height: 4rem;
+}
+
+/** RPS ROOMS **/
+
+.challenge-room .versus {
+    display: flex;
+    text-align: center;
+    letter-spacing: 0.01ch;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.challenge-room .versus p {
+    letter-spacing: 0.1ch;
+    font-family: 'Metal Mania', cursive;
+}
+
+.challenge-room .versus .vs {
+    width: fit-content;
+    margin: 0 0.2rem;
+}
+
+.chat-dash:hover {
+    cursor: pointer;
+}
+
+/*
+*============================ CHAT BOX ============================
+*/
+
+.chat-box {
+    grid-area: 1 / 2 / var(--cb-height) / 4;
+    position: relative;
+    display: flex;
+    flex-flow: row wrap;
+    box-sizing: border-box;
+    height: 100%;
+    color: rgb(216, 216, 216);
+    background-color: rgba(78, 78, 78, 0.3);
+    overflow-wrap: break-word;
+    overflow: hidden;
+    transition: --cb-height 0.2s 0;
+}
+
+.split {
+    --cb-height: 5;
+}
+
+/** MESSAGES **/
+
+.chat-box ul {
+    box-sizing: border-box;
+    display: block;
+    padding-bottom: 10px;
+    width: 100%;
+    height: 90%;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.chat-box .message-container {
+    list-style: none;
+    margin: 0 auto;
+    width: 90%;
+    height: fit-content;
+}
+
+.lastMsg {
+    border-bottom: 1px dotted gray;
+}
+
+.message {
+    display: flex;
+    flex-direction: row wrap;
+    width: 100%;
+}
+
+.message .message-body {
+    display: inline-flex;
+    flex-flow: row wrap;
+    width: 100%;
+    height: fit-content;
+    word-break: break-all;
+}
+
+.message-body .username {
+    width: 100%;
+    color: green;
+    text-decoration: underline;
+}
+
+.message .read-status {
+    align-self: flex-end;
+}
+
+.read-status i {
+    font-size: 15px;
+}
+
+/** CHAT INPUT **/
+
+.chat-form {
+    width: 100%;
+    position: sticky;
+    box-sizing: border-box;
+    height: 10%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: stretch;
+    background-color: rgba(162, 209, 209, 0.1);
+}
+
+.chat-form form {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: stretch;
+    align-items: center;
+}
+
+.chat-form input {
+    margin-left: 0.2rem;
+    box-sizing: border-box;
+    width: 100%;
+    height: 2rem;
+    font-size: 16px;
+    border: transparent;
+}
+
+.chat-form input:focus {
+    outline: none;
+}
+
+.chat-form .send-msg-btn {
+    color: rgb(231, 231, 231);
+    background-color: rgb(63, 121, 148);
+    margin: 0 0.3rem 0 0;
+    border: transparent;
+    height: 2rem;
+    border-top-right-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+}
+.send-msg-btn:hover{
+    cursor: pointer;
+}
+.room-btn {
+    color: aliceblue;
+    margin: auto;
+    align-self: center;
+    border: transparent;
+    border-radius: 20%;
+    transition: background-color 0.3s ease-in-out 0.3s;
+    background-color: rgba(22, 97, 22, 0.3);
+}
+
+.room-btn:hover {
+    cursor: pointer;
+}
+
+.room-btn span {
+    font-size: 3ch;
+}
+
+.leave-btn {
+    background-color: rgba(100, 24, 24, 0.3);
+}
+
+.vs-swords {
+    margin: 0 10px 0 auto;
+    width: 2rem;
+    height: 2rem;
+    justify-self: center;
+    align-self: center;
+    filter: invert();
+}
+
+.vs-swords:hover {
+    cursor: pointer;
+}
+
+/*
+*=================================== RPS BOX =====================
+*/
+
+.game-box {
+    grid-area: 5 / 2 / 8 / 4;
+    box-sizing: border-box;
+    height: 100%;
+    color: rgb(216, 216, 216);
+    background-color: rgba(179, 230, 230, 0.1);
+    overflow-wrap: break-word;
+    overflow: hidden;
+}
+
+.rps-game {
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-flow: row wrap;
+    place-content: space-around space-around;
+    row-gap: 0.3rem;
+}
+
+/*
+*=================================== SCROLLBAR =====================
+*/
+
+/* width */
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #8b8b8b;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

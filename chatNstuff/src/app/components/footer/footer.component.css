@@ -1,0 +1,10 @@
+footer {
+    position: relative;
+    margin: 2rem auto;
+    text-align: center;
+    bottom: 0;
+}
+
+footer a {
+    color: rgb(255, 95, 95);
+}
