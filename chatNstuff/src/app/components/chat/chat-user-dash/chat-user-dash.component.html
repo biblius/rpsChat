@@ -2,9 +2,7 @@
 
 
 <h4>{{user.active ? user.username + ' (you)' : user.username}}</h4>
-<div class="online-status">
-    <i [ngStyle]="{color: user.connected ? 'green' :  'red'}" class="material-icons">brightness_1</i>
-</div>
-<div *ngIf="user.hasNewMessages" class="new-messages">
-    <i class="material-icons">email</i><span>!</span>
+<div class="dash-icons">
+    <i [ngStyle]="{color: user.connected ? 'green' :  'var(--main-red)'}" class="material-icons online-status">brightness_1</i>
+    <i *ngIf="user.hasNewMessages" class="material-icons new-messages">email</i>
 </div>

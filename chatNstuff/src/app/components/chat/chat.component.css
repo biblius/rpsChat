@@ -15,11 +15,6 @@
     inherits: false;
     initial-value: 270deg;
 }
-@property --main-red {
-    syntax: '<color>';
-    inherits: false;
-    initial-value: rgb(100, 24, 24);
-}
 
 @property --cb-height {
     syntax: '<integer>';
@@ -31,6 +26,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    overflow-wrap: break-word;
 }
 
 /*
@@ -46,8 +42,9 @@
 }
 
 .chat-rooms {
+    position: relative;
     grid-area: 5 / 1 / 8 / 2;
-    color: #f1f1f1;
+    color: var(--font-main-white);
     width: 100%;
     height: 100%;
     background-color: #2b2b2b;
@@ -55,17 +52,22 @@
 }
 
 .chat-dash {
-    color: #f1f1f1;
-    display: grid;
+    color: var(--font-main-white);
+    display: flex;
+    flex-flow: row wrap;
     box-sizing: border-box;
-    overflow: hidden;
-    grid-template: 1rem 1.5rem 1.5rem / 1fr 1fr 1fr;
     align-items: center;
     width: 100%;
+    height: 4rem;
+    margin-bottom: 0.1rem;
     background: linear-gradient(var(--a),var(--c), #353535 var(--p), var(--c));
-    z-index: 100;
     transition: --c 0.15s 0.1s;
     transition: --p 0.15s 0.1s;
+}
+
+.rooms {
+    margin: 0.2rem auto 0 auto;
+    height: 4rem;
 }
 
 .selected {
@@ -75,6 +77,9 @@
 }
 
 .rooms-banner {
+    position: sticky;
+    top: 0;
+    z-index: 50;
     text-align: center;
 }
 
@@ -109,15 +114,10 @@
     background: linear-gradient(to right, #353535, var(--main-red), #353535);
 }
 
-.rooms {
-    margin: 0.2rem auto 0 auto;
-    height: 4rem;
-}
-
 .challenge-room {
     display: flex;
     flex-flow: row wrap;
-    height: 4rem;
+    height: 3rem;
 }
 
 /** RPS ROOMS **/
@@ -132,12 +132,13 @@
 }
 
 .challenge-room .versus p {
+    width: 30%;
     letter-spacing: 0.1ch;
     font-family: 'Metal Mania', cursive;
 }
 
 .challenge-room .versus .vs {
-    width: fit-content;
+    justify-self: center;
     margin: 0 0.2rem;
 }
 
@@ -150,7 +151,7 @@
 */
 
 .chat-box {
-    grid-area: 1 / 2 / var(--cb-height) / 4;
+    grid-area: 1 / 2 / 8 / 4;
     position: relative;
     display: flex;
     flex-flow: row wrap;
@@ -158,38 +159,42 @@
     height: 100%;
     color: rgb(216, 216, 216);
     background-color: rgba(78, 78, 78, 0.3);
-    overflow-wrap: break-word;
     overflow: hidden;
-    transition: --cb-height 0.2s 0;
 }
 
 .split {
-    --cb-height: 5;
+    grid-area: 1 / 2 / 5 / 4;
 }
 
 /** MESSAGES **/
 
+.username-sticky {
+    top: -1rem;
+    opacity: .5;
+    position: sticky;
+    margin: 0 auto;
+    text-align: center;
+}
+
 .chat-box ul {
     box-sizing: border-box;
     display: block;
-    padding-bottom: 10px;
     width: 100%;
     height: 90%;
     box-sizing: border-box;
-    overflow-wrap: break-word;
     overflow-y: scroll;
-    overflow-x: hidden;
+    padding-bottom: 2rem;
 }
 
 .chat-box .message-container {
     list-style: none;
     margin: 0 auto;
-    width: 90%;
+    width: 95%;
     height: fit-content;
 }
 
 .lastMsg {
-    border-bottom: 1px dotted gray;
+    border-bottom: 1px dotted rgba(255, 255, 255, 0.233);
 }
 
 .message {
@@ -208,8 +213,12 @@
 
 .message-body .username {
     width: 100%;
-    color: green;
-    text-decoration: underline;
+    color: rgba(75, 221, 18, 0.712);
+    margin-bottom: 0.1rem;
+}
+
+.sender-active {
+    color: rgb(168, 50, 50);
 }
 
 .message .read-status {
@@ -223,10 +232,12 @@
 /** CHAT INPUT **/
 
 .chat-form {
-    width: 100%;
     position: sticky;
+    height: 2rem;
+    bottom: 0;
+    z-index: 100;
+    width: 100%;
     box-sizing: border-box;
-    height: 10%;
     display: flex;
     flex-flow: row nowrap;
     justify-content: stretch;
@@ -245,8 +256,8 @@
     margin-left: 0.2rem;
     box-sizing: border-box;
     width: 100%;
-    height: 2rem;
-    font-size: 16px;
+    height: 1.5rem;
+    font-size: 1.5ch;
     border: transparent;
 }
 
@@ -256,12 +267,12 @@
 
 .chat-form .send-msg-btn {
     color: rgb(231, 231, 231);
-    background-color: rgb(63, 121, 148);
+    background-color: var(--main-red);
     margin: 0 0.3rem 0 0;
     border: transparent;
-    height: 2rem;
-    border-top-right-radius: 0.3rem;
-    border-bottom-right-radius: 0.3rem;
+    height: 1.5rem;
+    border-top-right-radius: 10%;
+    border-bottom-right-radius: 10%;
 }
 .send-msg-btn:hover{
     cursor: pointer;
@@ -272,7 +283,7 @@
     align-self: center;
     border: transparent;
     border-radius: 20%;
-    transition: background-color 0.3s ease-in-out 0.3s;
+    transition: background-color 0.2s ease-in-out 0.25s;
     background-color: rgba(22, 97, 22, 0.3);
 }
 
@@ -281,7 +292,8 @@
 }
 
 .room-btn span {
-    font-size: 3ch;
+    margin-top: 0.25rem;
+    font-size: 2.5ch;
 }
 
 .leave-btn {
@@ -290,8 +302,8 @@
 
 .vs-swords {
     margin: 0 10px 0 auto;
-    width: 2rem;
-    height: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
     justify-self: center;
     align-self: center;
     filter: invert();
@@ -307,11 +319,9 @@
 
 .game-box {
     grid-area: 5 / 2 / 8 / 4;
-    box-sizing: border-box;
     height: 100%;
     color: rgb(216, 216, 216);
     background-color: rgba(179, 230, 230, 0.1);
-    overflow-wrap: break-word;
     overflow: hidden;
 }
 
@@ -320,8 +330,8 @@
     position: relative;
     display: flex;
     flex-flow: row wrap;
-    place-content: space-around space-around;
-    row-gap: 0.3rem;
+    justify-content: space-around;
+    align-items: baseline;
 }
 
 /*
@@ -340,7 +350,7 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #888;
+    background: rgb(71, 71, 71);
 }
 
 /* Handle on hover */

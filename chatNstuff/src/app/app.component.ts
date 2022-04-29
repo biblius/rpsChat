@@ -10,21 +10,15 @@ import { Router, NavigationEnd } from '@angular/router';
 })
 export class AppComponent {
   title: string = 'chatNstuff';
+
   isLoggedIn!: boolean;
+  loggedInSub: Subscription;
 
-  constructor(private authService: AuthService, private router: Router) {
-    router.events.subscribe((val) => {
-      if (val instanceof NavigationEnd) {
-        this.authService.isLoggedIn().subscribe(bool => {
-          this.isLoggedIn = bool
-        })
-      }
+  constructor(private authService: AuthService) {
+    this.loggedInSub = this.authService.loggedIn.subscribe(loggedIn => {
+      this.isLoggedIn = loggedIn;
     })
   }
 
-  ngOnInit() {
-    this.authService.isLoggedIn().subscribe(bool => {
-      this.isLoggedIn = bool
-    })
-  }
+  ngOnInit() { }
 }

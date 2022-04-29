@@ -17,7 +17,9 @@ export class RegisterComponent implements OnInit {
 
   userRegister(user: User) {
     this.authService.register(user).subscribe({
-      next: (response) => { console.log(response) },
+      next: (response) => {
+        this.authService.setAuthorizationToken(response.accessToken)
+      },
       error: (error) => console.log(error),
       complete: () => {
         console.log('Success!')

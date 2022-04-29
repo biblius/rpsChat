@@ -1,14 +1,16 @@
+import { Router } from '@angular/router';
 import { RockPaperScissors } from '../../../../backend/lib/rps';
 import { Message, ChatUser, Room } from '../../../../backend/lib/interfaces';
 import { UsersService } from './users.service';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { Injectable, OnDestroy } from "@angular/core";
 import { io, Socket } from "socket.io-client";
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 
-export class MessageService implements OnDestroy {
+export class MessageService {
   private socket: Socket;
 
   messages: Message[] = [];
@@ -33,29 +35,16 @@ export class MessageService implements OnDestroy {
   resetSubject = new Subject<RockPaperScissors>();
   winnerSubject = new Subject<string | undefined>();
 
-  constructor(private usersService: UsersService) {
-    this.socket = io("http://192.168.0.11:5000", { autoConnect: false });
-    const sessionID = localStorage.getItem("sessionID");
-
-    //set the socket auth handshake for the username and session, then connect
-    this.usersService.getActiveUser().subscribe({
-      next: (user) => {
-        if (sessionID) {
-          this.socket.auth = { sessionID: sessionID, username: user.username };
-        } else {
-          this.socket.auth = { username: user.username };
-        }
-      },
-      error: (error) => console.log(error),
-      complete: () => {
-        this.socket.connect();
-      }
+  constructor(private usersService: UsersService, private router: Router) {
+    this.socket = io(environment.chatProxy, {
+      autoConnect: false
     });
 
     //if the username property of socket.auth.handshake doesn't exist
     this.socket.on("connect_error", (err) => {
       if (err.message) {
-        console.log('User is not logged in')
+        console.log(err)
+        this.router.navigateByUrl('/login')
         this.socket.off('connect_error')
       }
     });
@@ -156,12 +145,22 @@ export class MessageService implements OnDestroy {
       for (let i = 0; i < this.publicRooms.length; i++) {
         const { id } = this.publicRooms[i];
         if (id == room.id) {
-          console.log(this.publicRooms)
           this.publicRooms[i] = room;
-          break;
+          this.publicRoomsSubject.next(this.publicRooms);
+          return;
         }
       }
-      this.publicRoomsSubject.next(this.publicRooms)
+    })
+
+    this.socket.on('delete room', roomId => {
+      for (let i = 0; i < this.publicRooms.length; i++) {
+        const room = this.publicRooms[i];
+        if(room.id == roomId) {
+          this.publicRooms.splice(this.publicRooms.indexOf(room), 1);
+          this.publicRoomsSubject.next(this.publicRooms);
+          return;
+        }
+      }
     })
 
     /************ USERS *************/
@@ -219,9 +218,29 @@ export class MessageService implements OnDestroy {
     })
 
     this.socket.on('resolve', (winnerUsername) => {
-      console.log(winnerUsername)
       this.winnerSubject.next(winnerUsername);
     })
+  }
+
+  innitSocket() {
+    console.log('grabbing user')
+    this.usersService.getActiveUser().subscribe({
+      next: (user) => {
+        const sessionID = localStorage.getItem("sessionID");
+        if (sessionID) {
+          console.log('user found : ', user)
+          console.log('with session : ', sessionID)
+          this.socket.auth = { sessionID: sessionID, username: user.username };
+        } else {
+          console.log('user found : ', user)
+          this.socket.auth = { username: user.username };
+        }
+      },
+      error: (error) => console.log(error),
+      complete: () => {
+        this.socket.connect();
+      }
+    });
   }
 
   sendChallenge(challenged: ChatUser) {
@@ -309,14 +328,5 @@ export class MessageService implements OnDestroy {
 
   disconnect() {
     this.socket.disconnect();
-  }
-
-  ngOnDestroy() {
-    this.socket.off("connect");
-    this.socket.off("disconnect");
-    this.socket.off("users");
-    this.socket.off("user connected");
-    this.socket.off("user disconnected");
-    this.socket.off("private message");
   }
 }

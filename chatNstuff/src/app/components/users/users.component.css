@@ -1,7 +1,16 @@
 .users-list {
     display: flex;
-    gap: 1rem;
+    justify-content: center;
+    gap: 0.2rem;
     flex-flow: row wrap;
+    overflow-wrap: break-word;
+}
+
+.user-dash {
+    background-color: var(--bg-main-black);
+    font-size: 1.5ch;
+    margin: 0.1rem;
+    width: 20%;
 }
 
 .error-msg {
@@ -10,5 +19,5 @@
 }
 
 .error-msg a {
-    color: rgb(255, 95, 95);
+    color: var(--link-main-red);
 }

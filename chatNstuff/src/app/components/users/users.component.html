@@ -1,4 +1,6 @@
-<app-button *ngIf="!errorMessage" text="Create user" color="{{showAddUser ? 'rgb(255, 95, 95)' : 'green'}}" (btnClick)="toggleAddUser()"></app-button>
+<app-button *ngIf="!errorMessage" text="Create user" 
+color="{{showAddUser ? 'rgb(100, 24, 24)' : 'green'}}"
+    (btnClick)="toggleAddUser()"></app-button>
 <app-add-user *ngIf="showAddUser" (onSubmitCredentials)="createUser($event)"></app-add-user>
 
 <h2 class="error-msg" *ngIf="errorMessage">
@@ -6,6 +8,5 @@
 </h2>
 
 <div *ngIf="!errorMessage" class="users-list">
-    <app-user-dash *ngFor="let user of users" [user]="user" (onDeleteUser)="deleteUser(user)"
-        (onToggleOnline)="toggleOnlineStatus(user)"></app-user-dash>
+    <app-user-dash class="user-dash" *ngFor="let user of users" [user]="user" (onDeleteUser)="deleteUser(user)"></app-user-dash>
 </div>

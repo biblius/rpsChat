@@ -11,12 +11,14 @@ export class RockPaperScissors {
 
     challengerScore: number;
     challengedScore: number;
-    
-    challengerConn: boolean = false;
+
+    challengerConn: boolean;
     challengedConn: boolean = false;
 
     fastMode: boolean = false;
     winnerName?: string
+
+    gameOver: boolean = false;
 
     constructor(challenger: ChatUser, challenged: ChatUser) {
         this._id = (Math.random() * Math.pow(2, 32) * Date.now()).toString(16)
@@ -25,6 +27,7 @@ export class RockPaperScissors {
         this._spectators = [];
         this.challengedScore = 0;
         this.challengerScore = 0;
+        this.challengerConn = true;
     }
 
     toggleFast() {
@@ -44,9 +47,10 @@ export class RockPaperScissors {
         if (challengerChoice == challengedChoice) {
             return;
         }
-        if(challengerChoice == 'kn' && challengedChoice != 'kn') {
-            
+        if (challengerChoice == 'kn' || challengedChoice == 'kn') {
+            return challengerChoice == 'kn' ? this.challenger : this.challenged;
         }
+
         switch (challengerChoice) {
             case 'r':
                 return challengedChoice == 's' ? this.challenger : this.challenged;
@@ -69,6 +73,15 @@ export class RockPaperScissors {
         if (!this.spectators.find(({ userID }) => user.userID == userID)) {
             this.spectators.push(user);
         }
+    }
+
+    disconnectPlayer(player: 'challenger' | 'challenged') {
+        player == 'challenged' ? this.challengedConn = false : this.challengerConn = false;
+        this.endGame();
+    }
+
+    endGame(): void {
+        this.gameOver = true;
     }
 
     get challenger() {

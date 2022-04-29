@@ -59,9 +59,9 @@
         Waiting for opponent to accept your challenge
     </p>
 
-    <button class="interact-btn"
+    <button class="interact-btn enter"
         *ngIf="rpsGame.challengedConn === false && rpsGame._challenger.userID !== activeUser.userID"
-        (click)="acceptChallenge(rpsGame._challenger)">Enter</button>
+        (click)="acceptChallenge(rpsGame._challenger)">Commence Deathmatch</button>
 
     <div class="button-container" *ngIf="rpsGame.challengedConn === true" [attr.tabindex]="rpsGame.fastMode ? '0' : null"
         (keyup)="onKey($event)" #interact>
@@ -85,11 +85,7 @@
 </div>
 
 <div class="interact" *ngIf="!userIs()">
-    <button (click)="spectateGame()">Spectate</button>
-</div>
-
-<div class="interact" *ngIf="userIs() === 'spectator'">
-    <button>Unspectate</button>
+    <button class="interact-btn" (click)="spectateGame()">Spectate</button>
 </div>
 
 <div class="score">
@@ -97,11 +93,11 @@
 </div>
 <div class="info">
 
-    <p class="waiting" *ngIf="choiceFinalized && !showWinnerBanner">Waiting for opponent...</p>
+    <p class="waiting" [ngStyle]="{visibility: choiceFinalized && !showWinnerBanner ? 'visible' : 'hidden'}">Waiting for opponent...</p>
 
     <div class="fast-mode-container" *ngIf="userIs() === 'challenger'" (click)="toggleFast()">
         <p [ngClass]="{'fast-rotate': rpsGame.fastMode}" class="material-symbols-outlined" id="bolt">bolt</p>
         <p class="hyper-tooltip"><abbr
-                title="Use number keys while buttons are focused to submit choice">HyperRPS</abbr></p>
+                title="Use number keys while buttons are focused to submit choice">LightningRPS</abbr></p>
     </div>
 </div>

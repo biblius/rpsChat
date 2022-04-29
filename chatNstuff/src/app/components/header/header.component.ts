@@ -11,21 +11,17 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class HeaderComponent implements OnInit {
   title: string = 'rpsChat';
+
   isLoggedIn!: boolean;
   loggedInSub!: Subscription;
 
   constructor(private uiService: UiService, private authService: AuthService, private router: Router) {
-    this.loggedInSub = router.events.subscribe((val) => {
-      if (val instanceof NavigationEnd) {
-        this.authService.isLoggedIn().subscribe({
-          next: (response) => { this.isLoggedIn = response }
-        })
-      };
-    });
+    this.loggedInSub = this.authService.loggedIn.subscribe(loggedIn => {
+      this.isLoggedIn = loggedIn;
+    })
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   logout() {
     console.log('logout')

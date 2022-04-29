@@ -7,7 +7,7 @@ const isAuth = require('./authMiddleware').isAuth;
 const isAdmin = require('./authMiddleware').isAdmin;
 
 router.use((req, res, next) => {
-    console.log('index req user', req.user);
+    console.log('index req user', req.session);
     next();
 })
 
@@ -15,7 +15,7 @@ router.use((req, res, next) => {
 router.use(require('./login-register'));
 
 /************************************** JWT AUTHENTICATION *************************************/
-router.use(passport.authenticate('jwt', { session: false }), (req, res, next) => {
+router.use(passport.authenticate('jwt', { session: true }), (req, res, next) => {
     next()
 });
 /******************************EVERY ROUTE BEYOND THIS POINT REQUIRES AUTHENTICATION *********************************/

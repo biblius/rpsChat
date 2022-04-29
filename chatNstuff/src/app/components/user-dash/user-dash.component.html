@@ -1,7 +1,5 @@
-<div [ngClass]="{online: user.onlineStatus}" class="user-dash" (dblclick)="toggleOnline(user)">
-    <h1 class="username">{{user.username}}</h1>
-    <p class="id">{{user._id}}</p>
-    <div class="interact">
-        <app-button text="Delete User" (btnClick)="onDelete(user)"></app-button>
-    </div>
+<h3 class="username">{{user.username}}</h3>
+<p class="id">{{user._id}}</p>
+<div class="interact">
+    <app-button text="Delete User" (btnClick)="onDelete(user)"></app-button>
 </div>

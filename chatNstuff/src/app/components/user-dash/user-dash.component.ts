@@ -9,7 +9,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class UserDashComponent implements OnInit {
   @Input() user!: User;
   @Output() onDeleteUser: EventEmitter<User> = new EventEmitter;
-  @Output() onToggleOnline: EventEmitter<User> = new EventEmitter;
 
   constructor() { }
 
@@ -19,9 +18,5 @@ export class UserDashComponent implements OnInit {
   onDelete(user: User) {
     console.log(user)
     this.onDeleteUser.emit(user)
-  }
-
-  toggleOnline(user: User) {
-    this.onToggleOnline.emit(user)
   }
 }

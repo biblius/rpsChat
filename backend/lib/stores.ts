@@ -26,8 +26,8 @@ export class InMemorySessionStore {
     }
 
     deleteSession(session: Session): void {
-        for(let [key] of this.sessions) {
-            if(this.sessions.get(key) == session) {
+        for (let [key] of this.sessions) {
+            if (this.sessions.get(key) == session) {
                 this.sessions.delete(key);
                 return;
             }
@@ -58,14 +58,27 @@ export class InMemoryRoomStore {
             this.rooms.get(roomId)!.connected++;
         }
     }
-    
+
     removeUserFromRoom(roomId: string, user: ChatUser): void {
         if (this.rooms.has(roomId)) {
             const index = this.rooms.get(roomId)!.users.indexOf(user);
+            console.log(`Removing ${user.username} at index ${index} from ${roomId}`)
             this.rooms.get(roomId)!.users.splice(index, 1);
             this.rooms.get(roomId)!.connected--;
-            if(this.rooms.get(roomId)!.connected == 0) {
+            if (this.rooms.get(roomId)!.connected == 0) {
                 this.rooms.delete(roomId)
+            }
+        }
+    }
+
+    removeUserFromAll(user: ChatUser): void {
+        for (let i = 0; i < [...this.rooms.values()].length; i++) {
+            let { users, id } = [...this.rooms.values()][i];
+            for (let j = 0; j < users.length; j++) {
+                if (user.userID == users[j].userID) {
+                    this.removeUserFromRoom(id, user);
+                    break;
+                }
             }
         }
     }
@@ -91,7 +104,7 @@ export class InMemoryRoomStore {
     }
 }
 
-export class InMemoryMessageStore{
+export class InMemoryMessageStore {
     messages!: Message[];
     constructor() {
         this.messages = [];

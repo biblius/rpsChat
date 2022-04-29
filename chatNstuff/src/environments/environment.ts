@@ -4,7 +4,12 @@
 
 export const environment = {
   production: false,
+  
   apiUrl: 'http://192.168.0.11:4000',
+  apiProxy: 'http://25.62.25.2:4000',
+
+  chatServer: "http://192.168.0.11:5000",
+  chatProxy: "http://25.62.25.2:5000",
   socketUrl: 'ws://localhost:4200'
 };
 

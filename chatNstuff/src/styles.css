@@ -6,7 +6,15 @@
 }
 
 :root {
-  --bg-color-main: rgba(78, 78, 78, 0.3);
+  --bg-main-black: rgba(78, 78, 78, 0.3);
+  --main-red: rgb(100, 24, 24);
+  --link-main-red: rgb(255, 95, 95);
+  --font-main-white: #f1f1f1;
+  --font-message-username: 
+}
+
+.header {
+  z-index: 100;
 }
 
 body {
@@ -18,7 +26,7 @@ body {
 main {
   color: white;
   padding: 4rem 0;
-  background: var(--bg-color-main);
+  background: var(--bg-main-black);
   height: 100%;
 }
 
@@ -35,18 +43,18 @@ main {
 }
 
 .container p a {
-  color: rgb(255, 95, 95);
+  color: var(--link-main-red);
 }
 
 .chat-container {
   display: grid;
   grid-template: 1fr 1fr 1fr 1fr 1fr 1fr 1fr / 1fr 1fr 1fr;
-  max-width: 1200px;
-  margin: 30px auto;
-  height: 700px;
+  max-width: 80rem;
+  margin: 2rem auto;
+  height: 40rem;
   border: 1px solid rgb(150, 150, 150);
-  padding: 30px;
-  border-radius: 5px;
+  padding: 1rem;
+  border-radius: 1%;
 }
 
 .form-control {

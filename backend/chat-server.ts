@@ -1,11 +1,9 @@
-import { config } from 'dotenv';
+require('dotenv').config()
 
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from "socket.io";
-
 import crypto from 'crypto';
-const randomId = () => crypto.randomBytes(8).toString("hex");
 
 import { RockPaperScissors, RPSStore } from './lib/rps';
 import { Message, ChatUser } from './lib/interfaces'
@@ -18,10 +16,11 @@ const rpsStore = new RPSStore;
 
 const app = express();
 const httpServer = createServer(app);
+const whitelist = ["http://localhost:4200", 'http://192.168.0.11:4200', 'http://25.62.25.2:4200']
 
 const io = new Server(httpServer, {
     cors: {
-        origin: ["http://localhost:4200", 'http://192.168.0.11:4200'],
+        origin: whitelist,
         methods: ["GET", "POST"]
     }
 });
@@ -49,6 +48,7 @@ io.use((socket, next) => {
         return next(new Error("User is not logged in"));
     }
     //Create a new session
+    const randomId = () => crypto.randomBytes(8).toString("hex");
     console.log('Session not found, creating new')
     socket.handshake.auth.sessionID = randomId();
     socket.handshake.auth.userID = randomId();
@@ -93,7 +93,9 @@ io.on("connect", (socket) => {
         if (session.username == username && !session.connected && session.userID != userId) {
             console.log('deleting old session', session)
             sessionStore.deleteSession(session);
-            io.emit('delete outdated', session.userID)
+            roomStore.removeUserFromAll(session);
+            io.emit('delete outdated', session.userID);
+            io.emit('rooms', roomStore.getRooms());
         } else {
             users.push({
                 userID: session.userID,
@@ -157,20 +159,22 @@ io.on("connect", (socket) => {
     socket.on('leave room', roomId => {
         socket.leave(roomId);
         roomStore.removeUserFromRoom(roomId, activeUser)
-        io.emit('rooms', roomStore.getRooms())
+        const room = roomStore.getRoom(roomId);
+        room ? io.emit('update room', room) : io.emit('delete room', roomId);
     })
     /************************************** RPS ***************************/
     const rpsRooms: RockPaperScissors[] = rpsStore.getRooms();
     rpsRooms.forEach(({ _challenger, _challenged, _spectators, _id }) => {
         if (_challenger.userID == userId || _challenged.userID == userId) {
-            console.log('Rejoining RPS: ' + _id)
-            socket.join(_id)
+            console.log('Rejoining RPS: ' + _id);
+            socket.join(_id);
             return;
         }
         for (let i = 0; i < _spectators.length; i++) {
             const { userID } = _spectators[i];
             if (userID == userId) {
-                socket.join(_id)
+                console.log('Rejoining RPS as spectator')
+                socket.join(_id);
                 return;
             }
         }
@@ -257,4 +261,4 @@ io.on("connect", (socket) => {
 
 });
 
-httpServer.listen(5000, () => console.log('Listening for requests on 5000'))
+httpServer.listen(process.env.CHAT_SERVER_PORT || 5000, () => console.log('Listening for requests on ' + process.env.CHAT_SERVER_PORT || 5000))

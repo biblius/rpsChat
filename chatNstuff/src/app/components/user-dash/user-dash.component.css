@@ -1,19 +1,11 @@
-.user-dash {
-    background-color: var(--bg-color-main);
-    margin: 15px auto;
-    width: 100%;
-}
-
 .username {
-    width: fit-content;
     margin: auto;
 }
 .id {
-    width: fit-content;
+    font-size: 1.3ch;
     margin: auto;
 }
 
 .delete-user {
-    width: fit-content;
-    margin: 10px auto;
+    margin: 0.1rem auto;
 }

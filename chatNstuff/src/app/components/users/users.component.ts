@@ -18,9 +18,9 @@ export class UsersComponent implements OnInit {
   showAddUserSub!: Subscription;
   userSub!: Subscription;
 
-  constructor(private usersService: UsersService, private uiService: UiService, private router: Router) {
+  constructor(private usersService: UsersService, private uiService: UiService) {
     this.showAddUserSub = this.uiService.addUserSubject.subscribe(response => this.showAddUser = response)
-   }
+  }
 
   ngOnInit(): void {
     this.userSub = this.usersService.getUsers().subscribe({
@@ -37,7 +37,7 @@ export class UsersComponent implements OnInit {
 
   deleteUser(user: User) {
     this.usersService.deleteUser(user).subscribe({
-      next: (user) => {},
+      next: (user) => { },
       error: (error) => console.log(error),
       complete: () => {
         console.log("User deleted: " + user.username)
@@ -49,9 +49,4 @@ export class UsersComponent implements OnInit {
   toggleAddUser() {
     this.uiService.toggleAddUser();
   }
-
-  toggleOnlineStatus(user: User) {
-    user.onlineStatus = !user.onlineStatus;
-  }
-
 }

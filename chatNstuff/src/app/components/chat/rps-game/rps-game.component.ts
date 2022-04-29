@@ -37,7 +37,6 @@ export class RpsGameComponent implements OnInit {
     })
 
     this.resetSub = this.messageService.resetSubject.subscribe(rps => {
-      console.log('next works')
       this.rpsGame = rps;
       delete this.rps;
       delete this.winner;

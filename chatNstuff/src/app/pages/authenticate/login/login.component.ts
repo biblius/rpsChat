@@ -14,15 +14,26 @@ export class LoginComponent implements OnInit {
   message?: string;
   showAddUser!: boolean;
 
-  subscription!: Subscription
+  loggedInSub!: Subscription
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {
+    console.log('login init')
+    this.loggedInSub = this.authService.loggedIn.subscribe(
+      loggedIn => {
+        if (loggedIn)
+          this.router.navigateByUrl('/');
+        return;
+      }
+    )
+  }
 
   ngOnInit(): void { }
 
   userLogin(user: User) {
     this.authService.login(user).subscribe({
-      next: (response) => { console.log(response) },
+      next: (response) => {
+        this.authService.setAuthorizationToken(response.accessToken)
+      },
       error: (error) => console.log(error),
       complete: () => {
         console.log('Success!')

@@ -35,19 +35,19 @@
 
 .header-container {
     width: 100%;
-    height: 3rem;
+    height: 2rem;
     display: flex;
     flex-flow: row wrap;
     align-items: center;
     justify-content: space-around;
-    background: linear-gradient(to right, #353535, rgb(100, 24, 24), #353535);
+    background: linear-gradient(to right, #353535, var(--main-red), #353535);
 }
 
 .header-container h3 {
     font-family: 'Metal Mania', cursive;
     letter-spacing: 0.7ch;
+    margin-top: 0.2rem;
     width: 35%;
-    margin: auto;
     height: 2rem;
     text-align: center;
 }
@@ -56,8 +56,8 @@
     width: 30%;
     margin: auto;
     align-self: baseline;
-    height: 2rem;
-    width: 2rem;
+    height: 1.2rem;
+    width: 1.2rem;
     filter: invert();
 }
 
@@ -71,8 +71,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 25%;
-    height: 6rem;
+    width: 5rem;
+    height: 5rem;
     border: 1px solid white;
     border-radius: 1rem;
 }
@@ -99,7 +99,7 @@
     text-align: center;
     font-size: 3ch;
     width: 20%;
-    height: 3rem;
+    height: 1rem;
 }
 
 .interact {
@@ -107,17 +107,10 @@
     flex-flow: row wrap;
     row-gap: 1rem;
     width: 50%;
-    height: 5rem;
+    height: 4rem;
     justify-content: center;
     align-items: center;
-    border: 1px transparent;
     border-radius: 1rem;
-}
-
-.interact:focus {
-    border: 1px solid rgb(255, 255, 255);
-    border-radius: 1rem;
-    filter: hue-rotate(17deg);
 }
 
 .interact p {
@@ -184,12 +177,18 @@
     font-family: 'Metal Mania', cursive;
     letter-spacing: 0.2ch;
     color: white;
+    border: transparent;
     border-radius: 0.2rem;
     background: linear-gradient(to right, #353535, rgb(100, 24, 24), #353535);
 }
 
 .interact-btn:hover {
     cursor: pointer;
+}
+
+.enter {
+    font-size: 1rem;
+    padding: 0.3rem 1rem;
 }
 
 .no-choice {
@@ -201,13 +200,12 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 .waiting {
     margin-left: 1ch;
     justify-self: flex-start;
-    width: 70%;
 }
 
 .fast-mode-container {
@@ -223,6 +221,10 @@
 
 .fast-mode-container p {
     font-size: 1.3ch;
+}
+
+.fast-mode-container abbr {
+    text-decoration: none;
 }
 
 #bolt {

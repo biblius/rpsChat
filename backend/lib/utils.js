@@ -3,7 +3,7 @@ const fs = require('fs'),
 require('dotenv').config();
 
 function issueJWT(userId) {
-    const PRIV_KEY = fs.readFileSync('C:/Users/Bunkus Khan/Desktop/chatNstuff/config/crypto/id_rsa_priv.pem', 'utf-8');
+    const PRIV_KEY = fs.readFileSync('C:/Users/Bunkus Khan/Desktop/chatNstuff/backend/config/crypto/id_rsa_priv.pem', 'utf-8');
     const expiresIn = '1d';
     const payload = {
         sub: userId,

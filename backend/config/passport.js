@@ -9,7 +9,6 @@ const passport = require('passport'),
 ///////////////////////////////////////LOCAL STRATEGY///////////////////////////////////////////////////////
 const localStrategy = new LocalStrategy(async (username, password, done) => {
     const user = await User.findOne({ username: username });
-    console.log(user)
     try {
         if (!user) {
             return done(null, false)
@@ -24,7 +23,6 @@ const localStrategy = new LocalStrategy(async (username, password, done) => {
         next(err);
     }
 });
-passport.use(localStrategy);
 
 ///////////////////////////////////////////JWT STRATEGY//////////////////////////////////
 const PUB_KEY = fs.readFileSync(__dirname + '/crypto/id_rsa_pub.pem', 'utf-8');
@@ -36,6 +34,7 @@ const options = {
 
 const jwtStrategy = new JwtStrategy(options, async (payload, done) => {
     const user = await User.findById(payload.sub);
+    console.log(user)
     try {
         if (!user) return done(null, false);
         return done(null, user);
@@ -44,18 +43,5 @@ const jwtStrategy = new JwtStrategy(options, async (payload, done) => {
         return done(err, false);
     }
 });
-passport.use(jwtStrategy);
 
-
-//attaches a user ID to req.session.passport on successfull login
-passport.serializeUser((user, done) => {
-    done(null, user.id);
-});
-
-//takes the ID from the passport, finds the user and attaches it to req.user on subsequent requests
-passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
-        if (err) { return done(err) };
-        done(null, user);
-    });
-});
+module.exports = { localStrategy, jwtStrategy }

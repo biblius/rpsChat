@@ -1,10 +1,10 @@
 import { RockPaperScissors } from '../../../../../backend/lib/rps';
 import { ElementRef, OnDestroy, ViewChild } from '@angular/core';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'src/app/services/message.service';
 import { Message, Room, ChatUser } from '../../../../../backend/lib/interfaces';
-import { state, trigger, style, animate, transition } from '@angular/animations';
+import { trigger, style, animate, transition, stagger, query } from '@angular/animations';
 
 @Component({
   selector: 'app-chat',
@@ -23,7 +23,7 @@ import { state, trigger, style, animate, transition } from '@angular/animations'
           width: '100%'
         }),
         animate("100ms 100ms", style({ width: '0%' }))
-      ]),
+      ])
     ]),
 
     trigger('fadeInOut', [
@@ -31,14 +31,35 @@ import { state, trigger, style, animate, transition } from '@angular/animations'
         style({
           opacity: '0%'
         }),
-        animate("100ms 100ms", style({ opacity: '100%' }))
+        animate("100ms 200ms", style({ opacity: '1' }))
       ]),
       transition(':leave', [
         style({
           opacity: '100%'
         }),
-        animate("100ms", style({ opacity: '0%' }))
+        animate("100ms", style({ opacity: '0' }))
       ]),
+    ]),
+
+    trigger('listAnimation', [
+      transition('* => *', [
+        query(':enter', [
+          style({
+            opacity: '0%'
+          }),
+          stagger(100, [
+            animate('0.2s', style({ opacity: 1 }))
+          ])
+        ], { optional: true }),
+        query(':leave', [
+          style({
+            opacity: '100%'
+          }),
+          stagger(100, [
+            animate('0.2s', style({ opacity: 0 }))
+          ])
+        ], { optional: true })
+      ])
     ])
   ]
 })
@@ -78,7 +99,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    console.log(this.messageList)
+    this.messageService.innitSocket();
 
     this.chatUsersSubscription = this.messageService.usersSubject.subscribe(users => {
       this.users = users;
@@ -94,8 +115,9 @@ export class ChatComponent implements OnInit, OnDestroy {
       if (this.selected) {
         if (this.isInstanceOfChatUser(this.selected)) {
           this.messages = messages;
-          if (this.messageList)
-            this.messageList.nativeElement.scrollTop = this.messageList.nativeElement.scrollHeight
+          if (this.messageList) {
+            this.messageList.nativeElement.scrollTop = this.messageList.nativeElement.scrollHeight;
+          }
         }
       }
     })
@@ -118,12 +140,10 @@ export class ChatComponent implements OnInit, OnDestroy {
           if (this.isInstanceOfRoom(this.selected)) {
             this.messages = messages;
           }
+          if (this.messageList)
+            this.messageList.nativeElement.scrollTop = this.messageList.nativeElement.scrollHeight
         }
       },
-      complete: () => {
-        if (this.messageList)
-          this.messageList.nativeElement.scrollTop = this.messageList.nativeElement.scrollHeight
-      }
     })
 
     this.rpsRoomsSub = this.messageService.rpsRoomsSubject.subscribe(rooms => {
@@ -137,10 +157,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         }
       }
     })
-  }
-
-  ngAfterViewInit() {
-    console.log(this.messageList)
   }
 
   isInstanceOfChatUser(object: Object): object is ChatUser {
@@ -229,8 +245,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   joinRoom(room: Room) {
-    if (!this.isInRoom(room))
+    if (!this.isInRoom(room)) {
       this.messageService.joinRoom(room.id);
+    }
   }
 
   leaveRoom(room: Room) {
@@ -251,10 +268,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   sendMessage() {
     //PRIVATE MESSAGE
     if (this.selected) {
-
-      console.log('is room', this.isInstanceOfRoom(this.selected))
-      console.log('is user ', this.isInstanceOfChatUser(this.selected))
-
       if (this.isInstanceOfChatUser(this.selected)) {
         const message: Message = {
           id: `${(+new Date).toString(36)}-${this.activeUser.userID}-${this.selected.userID}`,
@@ -301,7 +314,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.messageService.disconnect();
   }
-
 }
 
 
